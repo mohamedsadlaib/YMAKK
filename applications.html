@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YMAK | Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#06060b;--bg2:#0b0b14;--bg3:#111122;--surface:rgba(255,255,255,.03);--border:rgba(255,255,255,.06);--green:#00ff88;--gold:#ffd700;--accent:#ff3366;--text:#e8e8f0;--text2:#8888aa;--radius:16px;--radius-sm:10px;--transition:.35s cubic-bezier(.4,0,.2,1)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Poppins,Tajawal,sans-serif;overflow-x:hidden;min-height:100vh}
+body.en{direction:ltr;font-family:Poppins,sans-serif}
+body.en .ar-only{display:none!important}
+body.en .en-only{display:inline!important}
+.ar-only{display:inline}
+.en-only{display:none!important}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--green);border-radius:3px}
+::selection{background:rgba(0,255,136,.25);color:#fff}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:0 32px;height:64px;background:rgba(6,6,11,.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:999}
+nav .logo{font-family:Orbitron,sans-serif;font-weight:900;font-size:1.2rem;letter-spacing:3px;background:linear-gradient(135deg,var(--green),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+nav .nav-links{display:flex;gap:4px;align-items:center}
+nav .nav-links a{color:var(--text2);text-decoration:none;font-weight:500;font-size:.82rem;padding:8px 16px;border-radius:8px;transition:all var(--transition);cursor:pointer}
+nav .nav-links a:hover{color:var(--text);background:var(--surface)}
+
+.hero-bar{background:linear-gradient(135deg,rgba(0,255,136,.04),rgba(255,215,0,.02));border-bottom:1px solid var(--border);padding:40px 20px 28px;text-align:center}
+.hero-bar h1{font-family:Orbitron,sans-serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:900;letter-spacing:2px}
+.hero-bar h1 span{background:linear-gradient(135deg,var(--green),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-bar p{color:var(--text2);margin-top:6px;font-size:.85rem}
+
+.container{max-width:900px;margin:0 auto;padding:28px 16px}
+
+.glass{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px 28px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.glass-title{font-family:Orbitron,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:4px;letter-spacing:1px}
+.glass-sub{color:var(--text2);font-size:.82rem;margin-bottom:20px}
+
+.login-box{max-width:380px;margin:40px auto}
+.login-box .glass{text-align:center;padding:36px 28px}
+.login-box h3{font-size:1rem;margin-bottom:4px}
+.login-box p{color:var(--text2);font-size:.82rem;margin-bottom:20px}
+.login-box .icon{font-size:2.4rem;margin-bottom:10px}
+
+.fg{margin-bottom:18px}
+.fg label{display:block;font-weight:600;font-size:.8rem;margin-bottom:5px;color:var(--text2)}
+.fg input{width:100%;padding:13px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.88rem;font-family:inherit;transition:all var(--transition);outline:none}
+.fg input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,255,136,.06)}
+.fg input::placeholder{color:rgba(255,255,255,.15)}
+.pass-error{color:var(--accent);font-size:.8rem;margin-top:8px;display:none}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 26px;border:none;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;letter-spacing:1px;cursor:pointer;transition:all var(--transition);font-family:inherit;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--green),#00cc6a);color:var(--bg)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(0,255,136,.2)}
+.btn-full{width:100%}
+.btn-logout{background:transparent;color:var(--text2);border:1px solid var(--border);font-size:.75rem;padding:6px 14px}
+.btn-logout:hover{border-color:var(--accent);color:var(--accent)}
+.btn-accept{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.15);padding:5px 14px;font-size:.75rem;border-radius:6px}
+.btn-accept:hover{background:rgba(0,255,136,.18)}
+.btn-reject{background:rgba(255,51,102,.1);color:var(--accent);border:1px solid rgba(255,51,102,.15);padding:5px 14px;font-size:.75rem;border-radius:6px}
+.btn-reject:hover{background:rgba(255,51,102,.18)}
+.btn-del{background:transparent;color:var(--text2);border:1px solid var(--border);padding:5px 12px;font-size:.72rem;border-radius:6px}
+.btn-del:hover{border-color:var(--accent);color:var(--accent)}
+
+.badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:.7rem;font-weight:600;letter-spacing:.5px}
+.badge-pending{background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.15)}
+.badge-accepted{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.15)}
+.badge-rejected{background:rgba(255,51,102,.1);color:var(--accent);border:1px solid rgba(255,51,102,.15)}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-box{text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 10px}
+.stat-box .num{font-family:Orbitron,sans-serif;font-size:1.5rem;font-weight:700;color:var(--green)}
+.stat-box .lbl{color:var(--text2);font-size:.7rem;margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+
+.search-bar{display:flex;gap:10px;margin-bottom:16px}
+.search-bar input{flex:1;padding:11px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.85rem;font-family:inherit;outline:none;transition:all var(--transition)}
+.search-bar input:focus{border-color:var(--green)}
+.search-bar input::placeholder{color:rgba(255,255,255,.15)}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead th{padding:11px 14px;text-align:start;color:var(--text2);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+tbody tr:last-child td{border-bottom:none}
+td .act-group{display:flex;gap:5px;flex-wrap:wrap}
+td .date-cell{color:var(--text2);font-size:.75rem}
+
+.empty-state{text-align:center;padding:50px 20px;color:var(--text2);font-size:.85rem}
+.empty-state .ic{font-size:2.6rem;margin-bottom:12px;display:block}
+
+footer{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--text2);font-size:.76rem;margin-top:40px}
+footer strong{color:var(--green)}
+footer a{color:var(--text2);text-decoration:none}
+footer a:hover{color:var(--green)}
+
+.lang-fab{position:fixed;bottom:20px;left:20px;z-index:999;width:42px;height:42px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer;font-weight:600;font-size:.8rem;transition:all var(--transition);font-family:inherit;display:flex;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.lang-fab:hover{border-color:var(--green);background:rgba(255,255,255,.06);transform:scale(1.05)}
+
+.rev{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
+.rev.vis{opacity:1;transform:translateY(0)}
+
+.action-msg{display:none;padding:14px 18px;border-radius:var(--radius-sm);margin-bottom:16px;font-weight:600;font-size:.85rem;text-align:center}
+.action-msg.success{display:block;background:rgba(0,255,136,.06);color:var(--green);border:1px solid rgba(0,255,136,.12)}
+.action-msg.error{display:block;background:rgba(255,51,102,.06);color:var(--accent);border:1px solid rgba(255,51,102,.12)}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:32px 28px;max-width:400px;width:100%;text-align:center}
+.modal-box h3{font-size:1rem;margin-bottom:8px}
+.modal-box p{color:var(--text2);font-size:.85rem;margin-bottom:20px;line-height:1.6}
+.modal-box .btns{display:flex;gap:10px;justify-content:center}
+
+@media(max-width:600px){
+nav{padding:0 14px}
+nav .nav-links a{padding:6px 10px;font-size:.72rem}
+.container{padding:20px 12px}
+.glass{padding:24px 14px}
+.stats-row{gap:8px}
+.stat-box{padding:12px 6px}
+.stat-box .num{font-size:1.1rem}
+.search-bar{flex-direction:column}
+thead th, tbody td{padding:8px 10px;font-size:.75rem}
+td .act-group{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="index.html" class="logo">YMAK</a>
+<div class="nav-links">
+<a href="index.html"><span class="ar-only">الرئيسية</span><span class="en-only">Home</span></a>
+<a href="#" id="nav-dash" style="color:var(--green)"><span class="ar-only">الإدارة</span><span class="en-only">Admin</span></a>
+<a id="logout-btn" class="btn-logout" style="display:none" onclick="logout()"><span class="ar-only">تسجيل خروج</span><span class="en-only">Logout</span></a>
+</div>
+</nav>
+
+<div class="hero-bar">
+<h1><span>YMAK</span> <span class="ar-only">لوحة الإدارة</span><span class="en-only">Admin Panel</span></h1>
+<p><span class="ar-only">نظام إدارة طلبات الانضمام</span><span class="en-only">Application Management System</span></p>
+</div>
+
+<div class="container">
+
+<div id="login-view">
+<div class="login-box rev vis">
+<div class="glass">
+<div class="icon">🔐</div>
+<h3><span class="ar-only">دخول الإدارة</span><span class="en-only">Admin Login</span></h3>
+<p><span class="ar-only">أدخل كلمة المرور للوصول إلى لوحة التحكم</span><span class="en-only">Enter the admin password</span></p>
+<div class="fg">
+<input type="password" id="admin-pass" placeholder="كلمة المرور" class="ar-only">
+<input type="password" id="admin-pass-en" placeholder="Password" class="en-only">
+</div>
+<button class="btn btn-primary btn-full" onclick="login()"><span class="ar-only">دخول</span><span class="en-only">Login</span></button>
+<div class="pass-error" id="pass-error"><span class="ar-only">كلمة المرور غير صحيحة</span><span class="en-only">Incorrect password</span></div>
+</div>
+</div>
+</div>
+
+<div id="dashboard-view" style="display:none">
+<div class="glass rev vis">
+<div class="glass-title"><span class="ar-only">لوحة التحكم</span><span class="en-only">Dashboard</span></div>
+<div class="glass-sub"><span class="ar-only">إدارة طلبات الانضمام إلى YMAK</span><span class="en-only">Manage YMAK applications</span></div>
+
+<div id="action-msg" class="action-msg"></div>
+
+<div class="stats-row">
+<div class="stat-box"><div class="num" id="stat-pending">0</div><div class="lbl ar-only">قيد الانتظار</div><div class="lbl en-only">Pending</div></div>
+<div class="stat-box"><div class="num" id="stat-accepted">0</div><div class="lbl ar-only">مقبول</div><div class="lbl en-only">Accepted</div></div>
+<div class="stat-box"><div class="num" id="stat-rejected">0</div><div class="lbl ar-only">مرفوض</div><div class="lbl en-only">Rejected</div></div>
+</div>
+
+<div class="search-bar">
+<input type="text" id="search-input" placeholder="بحث..." class="ar-only" oninput="renderTable()">
+<input type="text" id="search-input-en" placeholder="Search..." class="en-only" oninput="renderTable()">
+<button class="btn btn-primary" style="padding:11px 20px;font-size:.78rem" onclick="exportCSV()"><span class="ar-only">تصدير CSV</span><span class="en-only">Export CSV</span></button>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>#</th>
+<th>Roblox</th>
+<th>Discord</th>
+<th><span class="ar-only">الحالة</span><span class="en-only">Status</span></th>
+<th><span class="ar-only">التاريخ</span><span class="en-only">Date</span></th>
+<th><span class="ar-only">إجراءات</span><span class="en-only">Actions</span></th>
+</tr></thead>
+<tbody id="table-body"></tbody>
+</table>
+</div>
+
+<div id="empty-state" class="empty-state" style="display:none">
+<span class="ic">📋</span>
+<span class="ar-only">لا توجد طلبات</span>
+<span class="en-only">No applications</span>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+<div class="modal-box">
+<h3 id="modal-title"></h3>
+<p id="modal-text"></p>
+<div class="btns">
+<button class="btn btn-primary" id="modal-confirm" onclick=""><span class="ar-only">تأكيد</span><span class="en-only">Confirm</span></button>
+<button class="btn btn-logout" onclick="closeModal()"><span class="ar-only">إلغاء</span><span class="en-only">Cancel</span></button>
+</div>
+</div>
+</div>
+
+<footer>
+&copy; <span id="yr"></span> <strong>YMAK</strong> <span class="ar-only">| نظام إدارة الطلبات</span><span class="en-only">| Application System</span> — <a href="index.html"><span class="ar-only">الرئيسية</span><span class="en-only">Main Site</span></a>
+</footer>
+
+<button class="lang-fab" id="langb">🇸🇦</button>
+
+<script>
+var APPS_KEY = 'ymak_apps';
+var PASS_KEY = 'ymak_admin_pass';
+var SESSION_KEY = 'ymak_admin_logged';
+
+function getApps(){try{return JSON.parse(localStorage.getItem(APPS_KEY))||[]}catch(e){return[]}}
+function saveApps(a){localStorage.setItem(APPS_KEY,JSON.stringify(a))}
+function getPass(){return localStorage.getItem(PASS_KEY)||'ymak2024'}
+
+function getText(id){var e=document.getElementById(id);return e?e.value.trim():''}
+
+function showMsg(text,type){var m=document.getElementById('action-msg');m.textContent='';m.className='action-msg '+type;m.textContent=text;m.style.display='block';setTimeout(function(){m.style.display='none'},3000)}
+
+function login(){var p=getText('admin-pass')||getText('admin-pass-en');if(p===getPass()){localStorage.setItem(SESSION_KEY,'true');document.getElementById('login-view').style.display='none';document.getElementById('dashboard-view').style.display='block';document.getElementById('logout-btn').style.display='inline-flex';document.getElementById('pass-error').style.display='none';renderTable()}else{document.getElementById('pass-error').style.display='block'}}
+
+function logout(){localStorage.removeItem(SESSION_KEY);document.getElementById('login-view').style.display='block';document.getElementById('dashboard-view').style.display='none';document.getElementById('logout-btn').style.display='none'}
+
+function renderTable(){var apps=getApps();var q=getText('search-input')||getText('search-input-en');if(q){var lq=q.toLowerCase();apps=apps.filter(function(a){return a.roblox.toLowerCase().includes(lq)||a.discord.toLowerCase().includes(lq)})}var tb=document.getElementById('table-body');var em=document.getElementById('empty-state');updateStats();if(apps.length===0){tb.innerHTML='';em.style.display='block';return}em.style.display='none';var h='';apps.forEach(function(a,i){var statusLabels={pending:'<span class="badge badge-pending">'+(document.body.classList.contains('en')?'Pending':'قيد الانتظار')+'</span>',accepted:'<span class="badge badge-accepted">'+(document.body.classList.contains('en')?'Accepted':'مقبول')+'</span>',rejected:'<span class="badge badge-rejected">'+(document.body.classList.contains('en')?'Rejected':'مرفوض')+'</span>'};var ds=new Date(a.createdAt);var dateStr=ds.toLocaleDateString();var actHtml='<div class="act-group">';if(a.status!=='accepted')actHtml+='<button class="btn-accept" onclick="confirmAction(\''+a.id+'\',\'accepted\')">'+'<span class="ar-only">قبول</span><span class="en-only">Accept</span>'+'</button> ';if(a.status!=='rejected')actHtml+='<button class="btn-reject" onclick="confirmAction(\''+a.id+'\',\'rejected\')">'+'<span class="ar-only">رفض</span><span class="en-only">Reject</span>'+'</button> ';actHtml+='<button class="btn-del" onclick="confirmDelete(\''+a.id+'\')">🗑</button></div>';h+='<tr><td>'+(i+1)+'</td><td>'+esc(a.roblox)+'</td><td>'+esc(a.discord)+'</td><td>'+statusLabels[a.status]+'</td><td class="date-cell">'+dateStr+'</td><td>'+actHtml+'</td></tr>'});tb.innerHTML=h}
+
+function esc(s){var d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
+
+function updateStats(){var apps=getApps();var p=0,a=0,r=0;apps.forEach(function(x){if(x.status==='pending')p++;else if(x.status==='accepted')a++;else if(x.status==='rejected')r++});document.getElementById('stat-pending').textContent=p;document.getElementById('stat-accepted').textContent=a;document.getElementById('stat-rejected').textContent=r}
+
+var pendingId=null;
+var pendingAction=null;
+
+function confirmAction(id,action){var apps=getApps();var app=null;apps.forEach(function(a){if(a.id===id)app=a});if(!app)return;var modal=document.getElementById('modal-overlay');var title=document.getElementById('modal-title');var text=document.getElementById('modal-text');var btn=document.getElementById('modal-confirm');var isAr=!document.body.classList.contains('en');if(action==='accepted'){title.textContent=isAr?'قبول الطلب':'Accept Application';text.innerHTML=isAr?'هل تريد قبول <strong>'+esc(app.roblox)+'</strong>؟<br><br>سيتم إعلام اللاعب بالانضمام إلى الكلان. تأكد من إرسال رابط الديسكورد.':'Accept <strong>'+esc(app.roblox)+'</strong>?<br><br>Notify the player to join the clan. Make sure to send the Discord invite.'}else{title.textContent=isAr?'رفض الطلب':'Reject Application';text.innerHTML=isAr?'هل تريد رفض <strong>'+esc(app.roblox)+'</strong>؟':'Reject <strong>'+esc(app.roblox)+'</strong>?'}pendingId=id;pendingAction=action;btn.onclick=function(){doAction();};modal.classList.add('show')}
+
+function doAction(){if(!pendingId||!pendingAction)return;var apps=getApps();for(var i=0;i<apps.length;i++){if(apps[i].id===pendingId){apps[i].status=pendingAction;break}}saveApps(apps);closeModal();renderTable();var msg=pendingAction==='accepted'?'Application accepted. Player should join Discord.':'Application rejected.';showMsg(msg,'success');pendingId=null;pendingAction=null}
+
+function confirmDelete(id){var apps=getApps();var app=null;apps.forEach(function(a){if(a.id===id)app=a});if(!app)return;var modal=document.getElementById('modal-overlay');var title=document.getElementById('modal-title');var text=document.getElementById('modal-text');var btn=document.getElementById('modal-confirm');var isAr=!document.body.classList.contains('en');title.textContent=isAr?'حذف الطلب':'Delete Application';text.innerHTML=isAr?'هل تريد حذف طلب <strong>'+esc(app.roblox)+'</strong>؟<br><br>لا يمكن التراجع عن هذا الإجراء.':'Delete <strong>'+esc(app.roblox)+'</strong>?<br><br>This action cannot be undone.';btn.onclick=function(){deleteApp(id);};modal.classList.add('show')}
+
+function deleteApp(id){var apps=getApps();apps=apps.filter(function(a){return a.id!==id});saveApps(apps);closeModal();renderTable();var isAr=!document.body.classList.contains('en');showMsg(isAr?'تم الحذف':'Deleted','success')}
+
+function closeModal(){document.getElementById('modal-overlay').classList.remove('show')}
+
+function exportCSV(){var apps=getApps();if(apps.length===0){showMsg('No applications to export.','error');return}var isAr=!document.body.classList.contains('en');var header=isAr?'Roblox,Discord,الحالة,التاريخ\n':'Roblox,Discord,Status,Date\n';var csv=header;apps.forEach(function(x){csv+=x.roblox+','+x.discord+','+x.status+','+x.createdAt+'\n'});var blob=new Blob([csv],{type:'text/csv'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='ymak_applications.csv';a.click();URL.revokeObjectURL(url)}
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+var en=document.body.classList.contains('en');
+document.getElementById('langb').addEventListener('click',function(){en=!en;document.body.classList.toggle('en',en);document.documentElement.setAttribute('dir',en?'ltr':'rtl');this.textContent=en?'🇬🇧':'🇸🇦';renderTable()});
+
+document.querySelectorAll('.rev').forEach(function(e){e.classList.add('vis')});
+
+if(localStorage.getItem(SESSION_KEY)==='true'){document.getElementById('login-view').style.display='none';document.getElementById('dashboard-view').style.display='block';document.getElementById('logout-btn').style.display='inline-flex';renderTable()}
+
+document.getElementById('admin-pass').addEventListener('keydown',function(e){if(e.key==='Enter')login()});
+document.getElementById('admin-pass-en').addEventListener('keydown',function(e){if(e.key==='Enter')login()});
+</script>
+</body>
+</html>
